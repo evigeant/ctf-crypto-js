@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Links to project pages</title>
+    <style type="text/css">
+      #output  {
+        min-height:100px;
+        width:260px;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="ctf-crypto-js.js"></script>
+    <form action="" onsubmit="return false;">
+      <input id="input" name="input" type="text">
+      <input id="submit" type="submit" onclick="process(document.getElementById('input').value, document.getElementById('output'));">
+    </form>
+    <div id="output"></div>
+  </body>
+</html>
