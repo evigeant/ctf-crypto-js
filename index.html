@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Links to project pages</title>
+    <title>The ultimate decoder</title>
     <style type="text/css">
       #output  {
         min-height:100px;
@@ -12,6 +12,11 @@
   </head>
   <body>
     <script src="ctf-crypto-js.js"></script>
+    
+    <!-- Include all decoders here -->
+    <script src="decoders/hex.js"></script>
+    <script src="decoders/base64.js"></script>
+    
     <form action="" onsubmit="return false;">
       <input id="input" name="input" type="text">
       <input id="submit" type="submit" onclick="process(document.getElementById('input').value, document.getElementById('output'));">
