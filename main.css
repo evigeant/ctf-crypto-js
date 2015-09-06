@@ -1,3 +1,6 @@
+body {font-family: Verdana, Geneva, sans-serif;}
+table {border-collapse: collapse;}
+
 .titlebox {
     margin: auto;
     width: 60%;
@@ -8,6 +11,13 @@
 }
 
 .inputbox {
+    margin: auto;
+    width: 60%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#output{
     margin: auto;
     width: 60%;
     text-align: center;
