@@ -1,6 +1,7 @@
 body {font-family: Verdana, Geneva, sans-serif;}
 table {border-collapse: collapse;}
 
+.error {color: red;}
 .titlebox {
     margin: auto;
     width: 60%;
