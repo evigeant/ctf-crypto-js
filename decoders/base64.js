@@ -1,9 +1,7 @@
-var b64 = {
-	name : 'Base 64 decoder',
-	decode : function(input) {
-		return atob(input);
-	}
-	
-};
+var b64 = new Decoder('Base64');
+
+b64.decode = function(input) {
+    return new Decoded(this.name, 0.5, atob(input));
+}
 
 register(b64);
