@@ -2,6 +2,19 @@ body {font-family: Verdana, Geneva, sans-serif;}
 table {border-collapse: collapse;}
 
 .error {color: red;}
+.code {
+	font-family: Consolas, "Lucida Console", Monaco, monospace; 
+	border:1px solid #cccccc;
+	text-align: left;
+	padding: 1px;
+	display: table-cell;
+}
+.hexbox {
+	width: 310px;
+}
+.asciibox {
+	width: 143px;
+}
 .titlebox {
     margin: auto;
     width: 60%;
@@ -20,7 +33,7 @@ table {border-collapse: collapse;}
 
 #output{
     margin: auto;
-    width: 60%;
+    width: 90%;
     text-align: center;
     margin-top: 10px;
 }

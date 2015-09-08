@@ -52,6 +52,66 @@ function register(decoder) {
 }
 
 /**
+ * A function to HTML encode some text
+ * 
+ * @param {string}
+ *                str The string to encode
+ * @returns The encoded string
+ */
+function htmlEscape(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/**
+ * This comes from http://ecmanaut.blogspot.ca/2006/07/encoding-decoding-utf8-in-javascript.html
+ * @param s
+ * @returns
+ */
+function encode_utf8(s) {
+    return unescape(encodeURIComponent(s));
+}
+function decode_utf8(s) {
+    return decodeURIComponent(escape(s));
+}
+
+/**
+ * Takes a binary input and produces HTML to display it
+ * 
+ * @param {string}
+ *                bin The binary input to pretty print
+ * @return HTML for hex display
+ */
+function prettyPrintBinary(bin) {
+    var alphabet = '0123456789ABCDEF';
+    var ret = '<div class="code hexbox">';
+    for ( var i = 0; i < bin.length; i++) {
+	var d = bin.charCodeAt(i);
+	var lo = alphabet[d % 16];
+	var hi = alphabet[Math.floor(d / 16)];
+	ret += hi + lo;
+	if (i % 16 === 15) {
+	    ret += '<br>';
+	} else if (i % 4 === 3) {
+	    ret += ' ';
+	}
+    }
+    ret += '</div><div class="code asciibox">';
+    for ( var i = 0; i < bin.length; i++) {
+	var d = bin.charCodeAt(i);
+	if (d >= 32 && d <= 126) {
+	    ret += bin[i];
+	} else {
+	    ret += '.';
+	}
+	if(i % 16 === 15) {
+	    ret += '<br>';
+	}
+    }
+    ret += '</div>'
+    return ret;
+}
+
+/**
  * Formats the decoded value to be displayed in HTML
  * 
  * @param {Decoded}
@@ -65,16 +125,27 @@ function formatDecoded(decoded) {
     } else {
 	out += '<tr>';
     }
-    out += '<td>' + decoded.name + '</td><td>' + decoded.probability + '</td><td>' + decoded.value + '</td></tr>';
+    out += '<td>' + decoded.name + '</td><td>';
+    if (decoded.probability >= 0) {
+	out += decoded.probability;
+    }
+    out += '</td><td>';
+    if (!decoded.err) {
+	out += prettyPrintBinary(decoded.value);
+    }
+    out += '</td><td><pre class="code">' + htmlEscape(decoded.value) + '</pre></td></tr>';
     return out;
 }
 
-
 /**
  * A function that compares two Decoded object based on their probability
- * @param {Decoded} first
- * @param {Decoded} second
- * @returns -1 if the first is more probable than second, 0 if both are equal, 1 if second is more probable than first
+ * 
+ * @param {Decoded}
+ *                first
+ * @param {Decoded}
+ *                second
+ * @returns -1 if the first is more probable than second, 0 if both are equal, 1
+ *          if second is more probable than first
  */
 function decodedProbCompare(first, second) {
     return second.probability - first.probability;
@@ -101,16 +172,18 @@ function process(val, output_div) {
 	    decoded_list.push(decoded_err);
 	}
     }
-    
+
     decoded_list.sort(decodedProbCompare);
 
-    var out = '<table border="1"><tr><th>Name</th><th>Prob</th><th>Decoded</th></tr>';
-    out += '<tr><td>Input</td><td></td><td>' + val + '</td></tr>';
-    
+    var out = '<table border="1"><tr><th>Name</th><th>Prob</th><th>Hex</th><th>Decoded</th></tr>';
+
+    var input = new Decoded('Input', -1, val);
+    out += formatDecoded(input);
+
     for ( var i = 0; i < decoded_list.length; i++) {
 	out += formatDecoded(decoded_list[i])
     }
-    
+
     out += '</table>';
     output_div.innerHTML = out;
 }
